@@ -10,6 +10,8 @@ import time
 load_dotenv()
 
 driver = webdriver.Chrome()
+wait = WebDriverWait(driver, 15)
+
 driver.get('http://websag.windrose.com.br/arearestrita')
 
 
@@ -21,21 +23,48 @@ field_password.send_keys(os.environ['WINDROSE_PASSWORD'])
 
 
 # ----------- IA | Slide Submit Button -----------
+def submit():
 
-button = WebDriverWait(driver, 10).until(
-    EC.visibility_of_element_located((By.CLASS_NAME, 'ui-draggable-handle'))
-)
+    button = WebDriverWait(driver, 10).until(
+        EC.visibility_of_element_located((By.CLASS_NAME, 'ui-draggable-handle'))
+    )
 
-track = button.find_element(By.XPATH, '..')
-distance = track.size['width'] - button.size['width']
+    track = button.find_element(By.XPATH, '..')
+    distance = track.size['width'] - button.size['width']
 
-ActionChains(driver, duration=0) \
-    .click_and_hold(button) \
-    .move_by_offset(1, 0) \
-    .move_by_offset(distance + 5, 0) \
-    .release() \
-    .perform()
-
+    ActionChains(driver, duration=0) \
+        .click_and_hold(button) \
+        .move_by_offset(1, 0) \
+        .move_by_offset(distance + 5, 0) \
+        .release() \
+        .perform()
 # ----------- END IA | Slide Submit Button END -----------
+submit()
 
-time.sleep(8)
+# TODO 
+time.sleep(0.5)
+
+scheduling = driver.find_element(By.ID, 'agendamento')
+scheduling.click()
+
+# TODO 
+time.sleep(0.3)
+
+cad = driver.find_element(By.CLASS_NAME, 'cadastro')
+cad.click()
+
+# TODO 
+time.sleep(0.2)
+
+select_type = driver.find_element(By.ID, 'tipo')
+select_type.click();
+
+option_type = driver.find_element(By.XPATH, "//option[@value=1]")
+option_type.click()
+
+
+
+
+
+
+time.sleep(10)
